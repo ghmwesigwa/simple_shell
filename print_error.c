@@ -2,7 +2,7 @@
 
 /**
  * not_found - write error ("sh: 1: lss: not found")
- * @str: user's typed command
+ * @s: user's typed command
  * @c_n: nth user's typed command
  * @env: bring in environmental variables linked list to write shell name
  */
