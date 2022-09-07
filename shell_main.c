@@ -2,7 +2,7 @@
 
 /**
  * main - creates a simple shell
- * @arg_v: argument count
+ * @arg_c: argument count
  * @arg_v: argument vectors
  * @env: environmental variables
  * Return: 0 on success
