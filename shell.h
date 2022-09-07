@@ -32,7 +32,7 @@
 #include <dirent.h>
 
 /**
- * struct list - linked list for environmental variables
+ * list - linked list for environmental variables
  * @var: holds environmental variable string
  * @next: points to next node
  */
