@@ -115,7 +115,8 @@ int prompt(char **en)
 		command[n] = '\0';
 		if (command[0] == '\0') /* reprompt if user hits enter only */
 		{
-			free(n_command); continue;
+			free(n_command);
+			continue;
 		}
 		token = NULL;
 		token = _str_tok(command, " "); /*token user cmd*/
