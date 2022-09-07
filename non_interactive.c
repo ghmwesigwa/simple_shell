@@ -3,7 +3,7 @@
 /**
  * c_ignore - custom ignores spaces and newlines
  * (e.g. echo "ls\n ls" | ./a.out)
- * @str: envrionmental variables
+ * @s: envrionmental variables
  * Return: new string
  */
 char *c_ignore(char *s)
