@@ -55,7 +55,7 @@ int built_in(char **token, list_t *env, int num, char **command)
 
 /**
  * ignore_space - return string without spaces in front
- * @str: string
+ * @s: string
  * Return: new string
  */
 char *ignore_space(char *s)
@@ -102,10 +102,10 @@ int prompt(char **en)
 			write(STDOUT_FILENO, "$ ", 2);
 		else
 			non_interactive(env);
-		signal(SIGINT, ctrl_c); /* makes ctrl+c not work */
-		command = NULL; i = 0; /* reset vars each time loop runs */
-		i = get_line(&command); /* read user's cmd in stdin */
-		ctrl_D(i, command, env); /* exits shell if ctrl-D */
+		signal(SIGINT, ctrl_c);
+		command = NULL; i = 0;
+		i = get_line(&command);
+		ctrl_D(i, command, env);
 		n_command = command;
 		command = ignore_space(command);
 		n = 0;
