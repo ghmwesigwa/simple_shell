@@ -4,7 +4,7 @@
  * t_strlen - returns token's string length for mallocing
  * @str: a token
  * @p: index position in user's command typed into shell
- * @delm: delimeter (e.g. " ");
+ * @delim: delimeter (e.g. " ");
  * Return: token length
  */
 int t_strlen(char *str, int p, char delim)
