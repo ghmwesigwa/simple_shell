@@ -46,7 +46,7 @@ typedef struct list
 /* function prototypes */
 int prompt(char **env);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-size_t get_line(char **str);
+size_t get_line(char **s);
 char *ignore_space(char *str);
 
 /* ---------------String functions-------------------*/
@@ -64,7 +64,7 @@ void non_interactive(list_t *env);
 char *_which(char *str, list_t *env);
 int __exit(char **s, list_t *env, int num, char **command);
 int _execve(char *argv[], list_t *env, int num);
-void free_double_ptr(char **str);
+void free_double_ptr(char **s);
 void free_linked_list(list_t *list);
 int _env(char **str, list_t *env);
 char *get_env(char *str, list_t *env);
