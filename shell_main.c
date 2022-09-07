@@ -7,7 +7,7 @@
  * @env: environmental variables
  * Return: 0 on success
  */
-int main(int arg_c, char **arg_v, char **env)
+int main (int arg_c, char **arg_v, char **env)
 {
 	(void)arg_v;
 	(void)arg_v;
