@@ -1,18 +1,11 @@
 #include "main.h"
-#include <errno.h>
 
 /**
- * execute_command - Execute the given command using execve.
- * @command: The command to execute.
- *
- * Description:
- * This function forks a child process and uses execve to
- * execute the specified command. It waits for the child
- * process to complete if it's the parent process.
+ * search_and_execute - Search for and execute the specified command.
+ * @args: An array of strings containing the command and its arguments.
  */
-void execute_command(char *command)
+void search_and_execute(char *args[])
 {
-	extern char **environ;
 	pid_t child_pid;
 
 	child_pid = fork();
@@ -23,21 +16,10 @@ void execute_command(char *command)
 	}
 	if (child_pid == 0)
 	{
-		char *args[MAX_ARGS];
-		char *token = strtok(command, " "); /* Split command into tokens */
-
-		int i = 0;
-
-		while (token != NULL)
-		{
-			args[i++] = token;
-			token = strtok(NULL, " ");
-		}
-		args[i] = NULL; /* Null-terminate the array */
-
+		/* Execute the command with full path */
 		if (execve(args[0], args, environ) == -1)
 		{
-			fprintf(stderr, "%s: ", args[0]);
+			fprintf(stderr, "./shell: ");
 			perror(NULL);
 			exit(EXIT_FAILURE);
 		}
@@ -46,5 +28,24 @@ void execute_command(char *command)
 	{
 		wait(NULL);
 	}
+}
+
+/**
+ * split_input - Split the input command into an array of arguments.
+ * @command: The command string to be split.
+ * @args: An array of strings to store the arguments.
+ */
+void split_input(char *command, char *args[])
+{
+	int i = 0;
+	char *token = strtok(command, " ");
+
+	while (token != NULL)
+	{
+		args[i] = token;
+		token = strtok(NULL, " ");
+		i++;
+	}
+	args[i] = NULL; /* Null-terminate the array */
 }
 
