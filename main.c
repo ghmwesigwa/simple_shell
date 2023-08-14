@@ -4,10 +4,10 @@
  * main - Entry point for the simple shell program.
  *
  * Description:
- * This function implements a basic shell that displays a prompt,
- * reads user input, and executes the entered commands using execve.
- * It continues to display the prompt and wait for user input until
- * the user enters Ctrl+D (EOF).
+ *     This function implements a basic shell that displays a prompt,
+ *     reads user input, and executes the entered commands using execve.
+ *     It continues to display the prompt and wait for user input until
+ *     the user enters Ctrl+D (EOF).
  *
  * Return: Always returns EXIT_SUCCESS.
  */
@@ -15,6 +15,7 @@ int main(void)
 {
 	char *command;
 	size_t bufsize = MAX_COMMAND_LENGTH;
+	char *args[MAX_ARGS];
 
 	command = (char *)malloc(bufsize * sizeof(char));
 	if (command == NULL)
@@ -40,7 +41,8 @@ int main(void)
 			break;
 		}
 
-		execute_command(command);
+		split_input(command, args);
+		search_and_execute(args);
 	}
 
 	free(command);
