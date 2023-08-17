@@ -1,6 +1,8 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include "builtins.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -16,15 +18,10 @@
 extern char **environ;
 
 /* main.c */
-void handle_input(char *input, char *alias_names[], char *alias_values[], int *num_aliases);
-void execute_commands(char *cmd, char *alias_names[], char *alias_values[], int *num_aliases);
-void print_environment(char *alias_names[], char *alias_values[], int *num_aliases);
-void handle_exit(char *status);
-void handle_cd(char *args[]);
-void handle_alias(char *args[], char *alias_names[], char *alias_values[], int *num_aliases);
+void handle_input(char *input);
+void execute_commands(char *cmd);
 void replace_variables(char *args[]);
 void search_and_execute(char *args[]);
-int find_alias_index(const char *name);
 
 /* shell.c */
 void search_and_execute(char *args[]);
