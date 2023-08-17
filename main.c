@@ -47,11 +47,8 @@ int main(void)
  * @input: The user input.
  *
  * Description:
-<<<<<<< Updated upstream
-=======
  * This function splits the input into arguments, handles built-in
  * commands (exit and env), and executes other commands using execve.
->>>>>>> Stashed changes
  */
 void handle_input(char *input)
 {
