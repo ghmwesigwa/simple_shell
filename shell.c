@@ -82,22 +82,6 @@ void execute_command(char *args[])
     }
 }
 
-/**
- * print_environment - Print the current environment variables.
- *
- * Description:
- * This function prints the current environment variables line by line.
- */
-void print_environment(void)
-{
-    int i = 0;
-
-    while (environ[i] != NULL)
-    {
-        printf("%s\n", environ[i]);
-        i++;
-    }
-}
 
 /**
  * custom_getline - Read a line of input from a stream.
