@@ -11,27 +11,27 @@
  */
 void search_and_execute(char *args[])
 {
-	pid_t child_pid;
+    pid_t child_pid;
 
-	child_pid = fork();
-	if (child_pid == -1)
-	{
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	if (child_pid == 0)
-	{
-		if (execve(args[0], args, environ) == -1)
-		{
-			fprintf(stderr, "./shell: ");
-			perror(NULL);
-			exit(EXIT_FAILURE);
-		}
-	}
-	else
-	{
-		wait(NULL);
-	}
+    child_pid = fork();
+    if (child_pid == -1)
+    {
+        perror("fork");
+        exit(EXIT_FAILURE);
+    }
+    if (child_pid == 0)
+    {
+        if (execve(args[0], args, environ) == -1)
+        {
+            fprintf(stderr, "./shell: ");
+            perror(NULL);
+            exit(EXIT_FAILURE);
+        }
+    }
+    else
+    {
+        wait(NULL);
+    }
 }
 
 /**
@@ -45,16 +45,16 @@ void search_and_execute(char *args[])
  */
 void split_input(char *command, char *args[])
 {
-	int i = 0;
-	char *token = strtok(command, " ");
+    int i = 0;
+    char *token = strtok(command, " ");
 
-	while (token != NULL)
-	{
-		args[i] = token;
-		token = strtok(NULL, " ");
-		i++;
-	}
-	args[i] = NULL;
+    while (token != NULL)
+    {
+        args[i] = token;
+        token = strtok(NULL, " ");
+        i++;
+    }
+    args[i] = NULL;
 }
 
 /**
@@ -63,23 +63,23 @@ void split_input(char *command, char *args[])
  *
  * Description:
  * This function is responsible for executing the given command
- * using execve. It also handles built-in commands (exit and env).
+ * using execve. It also handles built-in commands (exit, env).
  */
 void execute_command(char *args[])
 {
-	if (strcmp(args[0], "exit") == 0)
-	{
-		free(args);
-		exit(EXIT_SUCCESS);
-	}
-	else if (strcmp(args[0], "env") == 0)
-	{
-		print_environment();
-	}
-	else
-	{
-		search_and_execute(args);
-	}
+    if (strcmp(args[0], "exit") == 0)
+    {
+        free(args);
+        exit(EXIT_SUCCESS);
+    }
+    else if (strcmp(args[0], "env") == 0)
+    {
+        print_environment();
+    }
+    else
+    {
+        search_and_execute(args);
+    }
 }
 
 /**
@@ -90,13 +90,13 @@ void execute_command(char *args[])
  */
 void print_environment(void)
 {
-	int i = 0;
+    int i = 0;
 
-	while (environ[i] != NULL)
-	{
-		printf("%s\n", environ[i]);
-		i++;
-	}
+    while (environ[i] != NULL)
+    {
+        printf("%s\n", environ[i]);
+        i++;
+    }
 }
 
 /**
@@ -113,12 +113,12 @@ void print_environment(void)
  */
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 {
-	ssize_t chars_read = getline(lineptr, n, stream);
+    ssize_t chars_read = getline(lineptr, n, stream);
 
-	if (chars_read == -1)
-	{
-		return (-1);
-	}
-	return (chars_read);
+    if (chars_read == -1)
+    {
+        return (-1);
+    }
+    return (chars_read);
 }
 
