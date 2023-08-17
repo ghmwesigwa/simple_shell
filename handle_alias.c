@@ -11,9 +11,11 @@
  * @num_aliases: Pointer to the number of existing aliases.
  *
  * Description:
- * This function allows the user to manage aliases, which are custom command shortcuts.
+ * This function allows the user to manage aliases,
+* which are custom command shortcuts.
  */
-void handle_alias(char *args[], char *alias_names[], char *alias_values[], int *num_aliases)
+void handle_alias(char *args[], char *alias_names[], char *alias_values[],
+int *num_aliases)
 {
 	if (args[1] == NULL)
 	{
@@ -55,7 +57,8 @@ void handle_alias(char *args[], char *alias_names[], char *alias_values[], int *
  * Description:
  * This function adds or updates an alias based on the provided arguments.
  */
-void handle_alias_add_update(char *args[], char *alias_names[], char *alias_values[], int *num_aliases)
+void handle_alias_add_update(char *args[], char *alias_names[],
+char *alias_values[], int *num_aliases)
 {
 	int index = find_alias_index(args[1], alias_names, *num_aliases);
 
@@ -94,9 +97,9 @@ int find_alias_index(const char *name, char *alias_names[], int num_aliases)
 	{
 		if (strcmp(alias_names[i], name) == 0)
 		{
-			return i;
+			return (i);
 		}
 	}
-	return -1;
+	return (-1);
 }
 
