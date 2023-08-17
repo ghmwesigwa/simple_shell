@@ -14,27 +14,27 @@
  */
 void search_and_execute(char *args[])
 {
-    pid_t child_pid;
+	pid_t child_pid;
 
-    child_pid = fork();
-    if (child_pid == -1)
-    {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
-    if (child_pid == 0)
-    {
-        if (execve(args[0], args, environ) == -1)
-        {
-            fprintf(stderr, "./shell: ");
-            perror(NULL);
-            exit(EXIT_FAILURE);
-        }
-    }
-    else
-    {
-        wait(NULL);
-    }
+	child_pid = fork();
+	if (child_pid == -1)
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (child_pid == 0)
+	{
+		if (execve(args[0], args, environ) == -1)
+		{
+			fprintf(stderr, "./shell: ");
+			perror(NULL);
+			exit(EXIT_FAILURE);
+		}
+	}
+	else
+	{
+		wait(NULL);
+	}
 }
 
 /**
@@ -48,16 +48,16 @@ void search_and_execute(char *args[])
  */
 void split_input(char *command, char *args[])
 {
-    int i = 0;
-    char *token = strtok(command, " ");
+	int i = 0;
+	char *token = strtok(command, " ");
 
-    while (token != NULL)
-    {
-        args[i] = token;
-        token = strtok(NULL, " ");
-        i++;
-    }
-    args[i] = NULL;
+	while (token != NULL)
+	{
+		args[i] = token;
+		token = strtok(NULL, " ");
+		i++;
+	}
+	args[i] = NULL;
 }
 
 /**
@@ -70,19 +70,19 @@ void split_input(char *command, char *args[])
  */
 void execute_command(char *args[])
 {
-    if (strcmp(args[0], "exit") == 0)
-    {
-        free(args);
-        exit(EXIT_SUCCESS);
-    }
-    else if (strcmp(args[0], "env") == 0)
-    {
-        print_environment();
-    }
-    else
-    {
-        search_and_execute(args);
-    }
+	if (strcmp(args[0], "exit") == 0)
+	{
+		free(args);
+		exit(EXIT_SUCCESS);
+	}
+	else if (strcmp(args[0], "env") == 0)
+	{
+		print_environment();
+	}
+	else
+	{
+		search_and_execute(args);
+	}
 }
 
 /**
@@ -99,40 +99,41 @@ void execute_command(char *args[])
  */
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 {
-    size_t len = 0;
-    int c;
+	size_t len = 0;
+	int c;
 
-    if (*lineptr == NULL || *n == 0)
-    {
-        *n = 128; /* Initial buffer size */
-        *lineptr = (char *)malloc(*n);
-        if (*lineptr == NULL)
-        {
-            perror("malloc");
-            exit(EXIT_FAILURE);
-        }
-    }
+	if (*lineptr == NULL || *n == 0)
+	{
+		*n = 128; /* Initial buffer size */
+		*lineptr = (char *)malloc(*n);
+		if (*lineptr == NULL)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
+	}
 
-    while ((c = fgetc(stream)) != EOF && c != '\n')
-    {
-        if (len + 1 >= *n)
-        {
-            *n *= 2; /* Double the buffer size */
-            *lineptr = (char *)realloc(*lineptr, *n);
-            if (*lineptr == NULL)
-            {
-                perror("realloc");
-                exit(EXIT_FAILURE);
-            }
-        }
-        (*lineptr)[len++] = c;
-    }
+	while ((c = fgetc(stream)) != EOF && c != '\n')
+	{
+		if (len + 1 >= *n)
+		{
+			*n *= 2; /* Double the buffer size */
+			*lineptr = (char *)realloc(*lineptr, *n);
+			if (*lineptr == NULL)
+			{
+				perror("realloc");
+				exit(EXIT_FAILURE);
+			}
+		}
+		(*lineptr)[len++] = c;
+	}
 
-    if (c == EOF && len == 0)
-    {
-        return -1; /* No input read */
-    }
+	if (c == EOF && len == 0)
+	{
+		return (-1); /* No input read */
+	}
 
-    (*lineptr)[len] = '\0';
-    return len;
+	(*lineptr)[len] = '\0';
+	return (len);
 }
+

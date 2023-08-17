@@ -14,19 +14,20 @@
  */
 void replace_variables(char *args[])
 {
-    int i;
+	int i;
 
-    for (i = 0; args[i] != NULL; i++)
-    {
-        if (args[i][0] == '$')
-        {
-            char *var_name = args[i] + 1; /* Skip the $ */
-            char *var_value = getenv(var_name);
+	for (i = 0; args[i] != NULL; i++)
+	{
+		if (args[i][0] == '$')
+		{
+			char *var_name = args[i] + 1; /* Skip the $ */
+			char *var_value = getenv(var_name);
 
-            if (var_value != NULL)
-            {
-                args[i] = var_value;
-            }
-        }
-    }
+			if (var_value != NULL)
+			{
+				args[i] = var_value;
+			}
+		}
+	}
 }
+

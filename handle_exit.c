@@ -11,14 +11,15 @@
  */
 void handle_exit(char *status)
 {
-    if (status != NULL)
-    {
-        int exit_status = atoi(status);
+	if (status != NULL)
+	{
+		int exit_status = atoi(status);
 
-        exit(exit_status);
-    }
-    else
-    {
-        exit(EXIT_SUCCESS);
-    }
+		exit(exit_status);
+	}
+	else
+	{
+		exit(EXIT_SUCCESS);
+	}
 }
+
