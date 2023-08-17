@@ -18,16 +18,15 @@
 extern char **environ;
 
 /* main.c */
-void handle_input(char *input);
+void handle_input(char *input, char *alias_names[], char *alias_values[], int *num_aliases);
 void execute_commands(char *cmd);
+void split_input(char *command, char *args[]);
+void execute_command(char *args[]);
 void replace_variables(char *args[]);
 void search_and_execute(char *args[]);
 
 /* shell.c */
 void search_and_execute(char *args[]);
-void split_input(char *command, char *args[]);
-void execute_command(char *args[]);
-void print_environment(void);
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif /* MAIN_H */

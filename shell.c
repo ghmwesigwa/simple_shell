@@ -85,7 +85,6 @@ void execute_command(char *args[])
     }
 }
 
-
 /**
  * custom_getline - Read a line of input from a stream.
  * @lineptr: A pointer to the buffer storing the line.
@@ -98,24 +97,30 @@ void execute_command(char *args[])
  * This function reads a line of input from the specified stream,
  * dynamically allocating memory for the line buffer as needed.
  */
-ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream) {
-    if (*lineptr == NULL || *n == 0) {
-        *n = 128; // Initial buffer size
+ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
+{
+    size_t len = 0;
+    int c;
+
+    if (*lineptr == NULL || *n == 0)
+    {
+        *n = 128; /* Initial buffer size */
         *lineptr = (char *)malloc(*n);
-        if (*lineptr == NULL) {
+        if (*lineptr == NULL)
+        {
             perror("malloc");
             exit(EXIT_FAILURE);
         }
     }
 
-    size_t len = 0;
-    int c;
-
-    while ((c = fgetc(stream)) != EOF && c != '\n') {
-        if (len + 1 >= *n) {
-            *n *= 2; // Double the buffer size
+    while ((c = fgetc(stream)) != EOF && c != '\n')
+    {
+        if (len + 1 >= *n)
+        {
+            *n *= 2; /* Double the buffer size */
             *lineptr = (char *)realloc(*lineptr, *n);
-            if (*lineptr == NULL) {
+            if (*lineptr == NULL)
+            {
                 perror("realloc");
                 exit(EXIT_FAILURE);
             }
@@ -123,8 +128,9 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream) {
         (*lineptr)[len++] = c;
     }
 
-    if (c == EOF && len == 0) {
-        return -1; // No input read
+    if (c == EOF && len == 0)
+    {
+        return -1; /* No input read */
     }
 
     (*lineptr)[len] = '\0';
