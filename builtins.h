@@ -15,6 +15,7 @@ void handle_cd(char *args[]);
 void handle_alias(char *args[], char *alias_names[], char *alias_values[], int *num_aliases);
 int find_alias_index(const char *name, char *alias_names[], int num_aliases);
 void replace_variables(char *args[]);
+void handle_alias_add_update(char *args[], char *alias_names[], char *alias_values[], int *num_aliases);
 
 #endif /* BUILTINS_H */
 
