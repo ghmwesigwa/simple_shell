@@ -47,8 +47,6 @@ int main(void)
  * @input: The user input.
  *
  * Description:
- * This function splits the input into arguments, handles built-in
- * commands (exit and env), and executes other commands using execve.
  */
 void handle_input(char *input)
 {
