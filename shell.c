@@ -1,3 +1,6 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "main.h"
 
 /**
@@ -95,14 +98,35 @@ void execute_command(char *args[])
  * This function reads a line of input from the specified stream,
  * dynamically allocating memory for the line buffer as needed.
  */
-ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
-{
-    ssize_t chars_read = getline(lineptr, n, stream);
-
-    if (chars_read == -1)
-    {
-        return (-1);
+ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream) {
+    if (*lineptr == NULL || *n == 0) {
+        *n = 128; // Initial buffer size
+        *lineptr = (char *)malloc(*n);
+        if (*lineptr == NULL) {
+            perror("malloc");
+            exit(EXIT_FAILURE);
+        }
     }
-    return (chars_read);
-}
 
+    size_t len = 0;
+    int c;
+
+    while ((c = fgetc(stream)) != EOF && c != '\n') {
+        if (len + 1 >= *n) {
+            *n *= 2; // Double the buffer size
+            *lineptr = (char *)realloc(*lineptr, *n);
+            if (*lineptr == NULL) {
+                perror("realloc");
+                exit(EXIT_FAILURE);
+            }
+        }
+        (*lineptr)[len++] = c;
+    }
+
+    if (c == EOF && len == 0) {
+        return -1; // No input read
+    }
+
+    (*lineptr)[len] = '\0';
+    return len;
+}

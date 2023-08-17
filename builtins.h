@@ -11,9 +11,8 @@
 
 void handle_exit(char *status);
 void print_environment(void);
-void print_environment(void);
 void handle_cd(char *args[]);
-void handle_alias(char *args[], char *alias_names[], char *alias_values[], int *num_aliases);
+void handle_alias(char *args[], char *alias_names[], char *alias_values[]);
 int find_alias_index(const char *name);
 
 #endif /* BUILTINS_H */
