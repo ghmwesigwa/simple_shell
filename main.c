@@ -1,6 +1,7 @@
 #include "main.h"
 
 #define MAX_ALIASES 10
+
 /**
  * main - Entry point for the simple shell program.
  *
@@ -12,13 +13,12 @@
  *
  * Return: Always returns EXIT_SUCCESS.
  */
-
 int main(void)
 {
     int num_aliases = 0;
     char *alias_names[MAX_ALIASES];
     char *alias_values[MAX_ALIASES];
-    
+
     char *command;
     size_t bufsize = MAX_COMMAND_LENGTH;
 
@@ -41,7 +41,7 @@ int main(void)
             break;
         }
 
-        handle_input(command);
+        handle_input(command, alias_names, alias_values, &num_aliases);
     }
 
     free(command);
@@ -51,13 +51,15 @@ int main(void)
 /**
  * handle_input - Process the user input and execute commands.
  * @input: The user input.
+ * @alias_names: Array of alias names.
+ * @alias_values: Array of alias values.
+ * @num_aliases: Pointer to the number of existing aliases.
  *
  * Description:
  * This function splits the input into multiple commands (separated by ;),
  * and then executes each command sequentially using execute_commands.
  */
-
-void handle_input(char *input)
+void handle_input(char *input, char *alias_names[], char *alias_values[], int *num_aliases)
 {
     char *commands[MAX_ARGS];  /* Array to store individual commands */
     char *token = strtok(input, ";");
@@ -76,7 +78,7 @@ void handle_input(char *input)
     for (j = 0; j < i; j++)
     {
         char *cmd = commands[j];
-        execute_commands(cmd);
+        execute_commands(cmd, alias_names, alias_values, num_aliases);
     }
 }
 
@@ -108,7 +110,7 @@ void execute_commands(char *cmd)
     }
     else if (strcmp(args[0], "alias") == 0)
     {
-        handle_alias(args);
+        handle_alias(args, alias_names, alias_values, &num_aliases);
     }
     else
     {
@@ -116,4 +118,3 @@ void execute_commands(char *cmd)
         search_and_execute(args);
     }
 }
-
