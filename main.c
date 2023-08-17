@@ -4,10 +4,10 @@
  * main - Entry point for the simple shell program.
  *
  * Description:
- *     This function implements a basic shell that displays a prompt,
- *     reads user input, and executes the entered commands using execve.
- *     It continues to display the prompt and wait for user input until
- *     the user enters Ctrl+D (EOF).
+ * This function implements a basic shell that displays a prompt,
+ * reads user input, and executes the entered commands using execve.
+ * It continues to display the prompt and wait for user input until
+ * the user enters Ctrl+D (EOF).
  *
  * Return: Always returns EXIT_SUCCESS.
  */
@@ -47,8 +47,8 @@ int main(void)
  * @input: The user input.
  *
  * Description:
- *     This function splits the input into arguments, handles built-in
- *     commands (exit and env), and executes other commands using execve.
+ * This function splits the input into arguments, handles built-in
+ * commands (exit and env), and executes other commands using execve.
  */
 void handle_input(char *input)
 {

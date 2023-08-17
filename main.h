@@ -22,6 +22,7 @@ void search_and_execute(char *args[]);
 void split_input(char *command, char *args[]);
 void execute_command(char *args[]);
 void print_environment(void);
+ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif /* MAIN_H */
 
