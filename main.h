@@ -16,6 +16,12 @@ extern char **environ;
 
 /* main.c */
 void handle_input(char *input);
+void handle_exit(char *status);
+void handle_cd(char *args[]);
+void handle_alias(char *args[]);
+int find_alias_index(const char *name);
+void replace_variables(char *args[]);
+void execute_commands(char *cmd);
 
 /* shell.c */
 void search_and_execute(char *args[]);
