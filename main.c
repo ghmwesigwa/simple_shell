@@ -91,7 +91,7 @@ void handle_input(char *input, char *alias_names[], char *alias_values[], int *n
  * then checks and handles built-in commands (exit, env, cd, alias),
  * and finally executes other commands using search_and_execute.
  */
-void execute_commands(char *cmd)
+void execute_commands(char *cmd, char *alias_names[], char *alias_values[], int *num_aliases)
 {
     char *args[MAX_ARGS];
     split_input(cmd, args);
@@ -110,7 +110,7 @@ void execute_commands(char *cmd)
     }
     else if (strcmp(args[0], "alias") == 0)
     {
-        handle_alias(args, alias_names, alias_values, &num_aliases);
+        handle_alias(args, alias_names, alias_values, num_aliases);
     }
     else
     {

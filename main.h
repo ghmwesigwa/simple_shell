@@ -19,7 +19,7 @@ extern char **environ;
 
 /* main.c */
 void handle_input(char *input, char *alias_names[], char *alias_values[], int *num_aliases);
-void execute_commands(char *cmd);
+void execute_commands(char *cmd, char *alias_names[], char *alias_values[], int *num_aliases); 
 void split_input(char *command, char *args[]);
 void execute_command(char *args[]);
 void replace_variables(char *args[]);
