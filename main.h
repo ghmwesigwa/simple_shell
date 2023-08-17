@@ -9,19 +9,22 @@
 #include <sys/wait.h>
 #include <errno.h>
 
-#define MAX_ARGS 64
 #define MAX_COMMAND_LENGTH 1024
+#define MAX_ARGS 64
+#define MAX_ALIASES 10
 
 extern char **environ;
 
 /* main.c */
-void handle_input(char *input);
+void handle_input(char *input, char *alias_names[], char *alias_values[], int *num_aliases);
+void execute_commands(char *cmd, char *alias_names[], char *alias_values[], int *num_aliases);
+void print_environment(char *alias_names[], char *alias_values[], int *num_aliases);
 void handle_exit(char *status);
 void handle_cd(char *args[]);
-void handle_alias(char *args[]);
-int find_alias_index(const char *name);
+void handle_alias(char *args[], char *alias_names[], char *alias_values[], int *num_aliases);
 void replace_variables(char *args[]);
-void execute_commands(char *cmd);
+void search_and_execute(char *args[]);
+int find_alias_index(const char *name);
 
 /* shell.c */
 void search_and_execute(char *args[]);
