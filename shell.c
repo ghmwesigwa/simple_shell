@@ -1,8 +1,14 @@
 #include "main.h"
 
+
 /**
- * search_and_execute - Search for and execute the specified command.
- * @args: An array of strings containing the command and its arguments.
+ * search_and_execute - Execute the given command using execve.
+ * @args: The arguments to the command.
+ *
+ * Description:
+ *     This function forks a child process and uses execve to
+ *     execute the specified command. It waits for the child
+ *     process to complete if it's the parent process.
  */
 void search_and_execute(char *args[])
 {
@@ -16,7 +22,6 @@ void search_and_execute(char *args[])
 	}
 	if (child_pid == 0)
 	{
-		/* Execute the command with full path */
 		if (execve(args[0], args, environ) == -1)
 		{
 			fprintf(stderr, "./shell: ");
@@ -31,9 +36,13 @@ void search_and_execute(char *args[])
 }
 
 /**
- * split_input - Split the input command into an array of arguments.
- * @command: The command string to be split.
- * @args: An array of strings to store the arguments.
+ * split_input - Split the user command into arguments.
+ * @command: The user command.
+ * @args: The array to store the arguments.
+ *
+ * Description:
+ *     This function tokenizes the user command using space as the delimiter
+ *     and stores the resulting arguments in the provided array.
  */
 void split_input(char *command, char *args[])
 {
@@ -46,6 +55,24 @@ void split_input(char *command, char *args[])
 		token = strtok(NULL, " ");
 		i++;
 	}
-	args[i] = NULL; /* Null-terminate the array */
+	args[i] = NULL;
+}
+
+/**
+ * print_environment - Print the current environment variables.
+ *
+ * Description:
+ *     This function prints the current environment variables line by line.
+ */
+void print_environment(void)
+{
+	extern char **environ;
+	int i = 0;
+
+	while (environ[i] != NULL)
+	{
+		printf("%s\n", environ[i]);
+		i++;
+	}
 }
 

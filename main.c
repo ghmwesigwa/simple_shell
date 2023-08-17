@@ -15,7 +15,6 @@ int main(void)
 {
 	char *command;
 	size_t bufsize = MAX_COMMAND_LENGTH;
-	char *args[MAX_ARGS];
 
 	command = (char *)malloc(bufsize * sizeof(char));
 	if (command == NULL)
@@ -27,25 +26,48 @@ int main(void)
 	while (1)
 	{
 		printf("#cisfun$ ");
-
-		/* Read user input */
 		getline(&command, &bufsize, stdin);
-
-		/* Remove newline character from the input */
 		command[strcspn(command, "\n")] = '\0';
 
-		/* Exit if Ctrl+D (EOF) is encountered */
 		if (feof(stdin))
 		{
 			printf("\n");
 			break;
 		}
 
-		split_input(command, args);
-		search_and_execute(args);
+		handle_input(command);
 	}
 
 	free(command);
 	return (EXIT_SUCCESS);
+}
+
+/**
+ * handle_input - Process the user input and execute commands.
+ * @input: The user input.
+ *
+ * Description:
+ *     This function splits the input into arguments, handles built-in
+ *     commands (exit and env), and executes other commands using execve.
+ */
+void handle_input(char *input)
+{
+	char *args[MAX_ARGS];
+
+	split_input(input, args);
+
+	if (strcmp(args[0], "exit") == 0)
+	{
+		free(input);
+		exit(EXIT_SUCCESS);
+	}
+	else if (strcmp(args[0], "env") == 0)
+	{
+		print_environment();
+	}
+	else
+	{
+		search_and_execute(args);
+	}
 }
 

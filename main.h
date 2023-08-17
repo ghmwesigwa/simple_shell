@@ -7,15 +7,21 @@
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <errno.h>
 
-#define MAX_COMMAND_LENGTH 1024
 #define MAX_ARGS 64
+#define MAX_COMMAND_LENGTH 1024
 
 extern char **environ;
 
-void execute_command(char *command);
+/* main.c */
+void handle_input(char *input);
+
+/* shell.c */
 void search_and_execute(char *args[]);
 void split_input(char *command, char *args[]);
+void execute_command(char *args[]);
+void print_environment(void);
 
 #endif /* MAIN_H */
 
