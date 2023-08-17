@@ -6,9 +6,6 @@
  * @args: The arguments to the command.
  *
  * Description:
- *     This function forks a child process and uses execve to
- *     execute the specified command. It waits for the child
- *     process to complete if it's the parent process.
  */
 void search_and_execute(char *args[])
 {
@@ -41,8 +38,6 @@ void search_and_execute(char *args[])
  * @args: The array to store the arguments.
  *
  * Description:
- *     This function tokenizes the user command using space as the delimiter
- *     and stores the resulting arguments in the provided array.
  */
 void split_input(char *command, char *args[])
 {
@@ -59,14 +54,6 @@ void split_input(char *command, char *args[])
 }
 
 /**
- * print_environment - Print the current environment variables.
- *
- * Description:
- *     This function prints the current environment variables line by line.
- */
-void print_environment(void)
-{
-	extern char **environ;
 	int i = 0;
 
 	while (environ[i] != NULL)
@@ -74,5 +61,6 @@ void print_environment(void)
 		printf("%s\n", environ[i]);
 		i++;
 	}
+
 }
 
