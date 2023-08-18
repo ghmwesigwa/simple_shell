@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include "main.h"
 
 /**
  * handle_cd - Handle the built-in cd (change directory) command.
@@ -12,17 +13,15 @@
  */
 void handle_cd(char *args[])
 {
-	if (args[1] == NULL)
-	{
-		chdir(getenv("HOME"));
-	}
-	else
-	{
-		if (chdir(args[1]) != 0)
-		{
-			perror("cd");
-		}
-	}
-	setenv("PWD", getcwd(NULL, 0), 1);
+    if (args[1] == NULL)
+    {
+        chdir(getenv("HOME"));
+    }
+    else
+    {
+        if (chdir(args[1]) != 0)
+        {
+            perror("cd");
+        }
+    }
 }
-

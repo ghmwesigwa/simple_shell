@@ -1,6 +1,7 @@
 #include "main.h"
 
 #define MAX_ALIASES 10
+#define MAX_PROMPT_LENGTH 100
 
 /**
  * main - Entry point for the simple shell program.
@@ -13,39 +14,58 @@
  *
  * Return: Always returns EXIT_SUCCESS.
  */
+#define MAX_PROMPT_LENGTH 100
+
 int main(void)
 {
-	int num_aliases = 0;
-	char *alias_names[MAX_ALIASES];
-	char *alias_values[MAX_ALIASES];
+    int num_aliases = 0;
+    char *alias_names[MAX_ALIASES];
+    char *alias_values[MAX_ALIASES];
 
-	char *command;
-	size_t bufsize = MAX_COMMAND_LENGTH;
+    char *command;
+    size_t bufsize = MAX_COMMAND_LENGTH;
 
-	command = (char *)malloc(bufsize * sizeof(char));
-	if (command == NULL)
-	{
-		perror("Allocation error");
-		exit(EXIT_FAILURE);
-	}
+    command = (char *)malloc(bufsize * sizeof(char));
+    if (command == NULL)
+    {
+        perror("Allocation error");
+        exit(EXIT_FAILURE);
+    }
 
-	while (1)
-	{
-		printf("#cisfun$ ");
-		getline(&command, &bufsize, stdin);
-		command[strcspn(command, "\n")] = '\0';
+    char *current_dir = NULL;
+    char prompt[MAX_PROMPT_LENGTH];
 
-		if (feof(stdin))
-		{
-			printf("\n");
-			break;
-		}
+    while (1)
+    {
+        // Get the current working directory
+        current_dir = getcwd(current_dir, 0);
+        if (current_dir == NULL)
+        {
+            perror("getcwd");
+            exit(EXIT_FAILURE);
+        }
 
-		handle_input(command, alias_names, alias_values, &num_aliases);
-	}
+        // Generate the prompt string
+        snprintf(prompt, MAX_PROMPT_LENGTH, "#cisfun:%s$", current_dir);
 
-	free(command);
-	return (EXIT_SUCCESS);
+        // Display the prompt and read user input
+        printf("%s ", prompt);
+        getline(&command, &bufsize, stdin);
+        command[strcspn(command, "\n")] = '\0';
+
+        if (feof(stdin))
+        {
+            printf("\n");
+            break;
+        }
+
+        handle_input(command, alias_names, alias_values, &num_aliases);
+
+        free(current_dir);
+    }
+
+    free(command);
+    return (EXIT_SUCCESS);
 }
 
 /**

@@ -210,4 +210,3 @@ ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 	(*lineptr)[len] = '\0';
 	return (len);
 }
-
