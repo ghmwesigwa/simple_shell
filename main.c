@@ -12,61 +12,88 @@
  * It continues to display the prompt and wait for user input until
  * the user enters Ctrl+D (EOF).
  *
- * Return: Always returns EXIT_SUCCESS.
+ * Return: Always returns EXIT_SUCCESS
  */
-#define MAX_PROMPT_LENGTH 100
 
-int main(void)
+int main(int argc, char *argv[])
 {
     int num_aliases = 0;
     char *alias_names[MAX_ALIASES];
     char *alias_values[MAX_ALIASES];
 
-    char *command;
-    size_t bufsize = MAX_COMMAND_LENGTH;
-
-    command = (char *)malloc(bufsize * sizeof(char));
-    if (command == NULL)
-    {
-        perror("Allocation error");
-        exit(EXIT_FAILURE);
-    }
-
-    char *current_dir = NULL;
-    char prompt[MAX_PROMPT_LENGTH];
-
-    while (1)
-    {
-        // Get the current working directory
-        current_dir = getcwd(current_dir, MAX_PROMPT_LENGTH);
-        if (current_dir == NULL)
-        {
-            perror("getcwd");
+    if (argc == 2) {
+        FILE *file = fopen(argv[1], "r");
+        if (file == NULL) {
+            perror("Error opening file");
             exit(EXIT_FAILURE);
         }
 
-        // Generate the prompt string
-        snprintf(prompt, MAX_PROMPT_LENGTH, "#cisfun:%s$", current_dir);
+        char *line = NULL;
+        size_t len = 0;
+        ssize_t read;
 
-        // Display the prompt and read user input
-        printf("%s ", prompt);
-        getline(&command, &bufsize, stdin);
-        command[strcspn(command, "\n")] = '\0';
+        while ((read = custom_getline(&line, &len, file)) != -1) {
+            if (line[read - 1] == '\n') {
+                line[read - 1] = '\0'; /* Remove newline character */
+            }
 
-        if (feof(stdin))
-        {
-            printf("\n");
-            break;
+            handle_input(line, alias_names, alias_values, &num_aliases);
         }
 
-        handle_input(command, alias_names, alias_values, &num_aliases);
+        free(line);
+        fclose(file);
+    } else if (argc == 1) {
+        char *command;
+        size_t bufsize = MAX_COMMAND_LENGTH;
 
-        free(current_dir);
+        command = (char *)malloc(bufsize * sizeof(char));
+        if (command == NULL)
+        {
+            perror("Allocation error");
+            exit(EXIT_FAILURE);
+        }
+
+        char *current_dir = NULL;
+        char prompt[MAX_PROMPT_LENGTH];
+
+        while (1)
+        {
+            /* Get the current working directory */
+            current_dir = getcwd(current_dir, MAX_PROMPT_LENGTH);
+            if (current_dir == NULL)
+            {
+                perror("getcwd");
+                exit(EXIT_FAILURE);
+            }
+
+            /* Generate the prompt string */
+            snprintf(prompt, MAX_PROMPT_LENGTH, "#cisfun:%s$", current_dir);
+
+            /* Display the prompt and read user input */
+            printf("%s ", prompt);
+            getline(&command, &bufsize, stdin);
+            command[strcspn(command, "\n")] = '\0';
+
+            if (feof(stdin))
+            {
+                printf("\n");
+                break;
+            }
+
+            handle_input(command, alias_names, alias_values, &num_aliases);
+
+            free(current_dir);
+        }
+
+        free(command);
+    } else {
+        fprintf(stderr, "Usage: %s [filename]\n", argv[0]);
+        exit(EXIT_FAILURE);
     }
 
-    free(command);
-    return (EXIT_SUCCESS);
+    return EXIT_SUCCESS;
 }
+
 
 /**
  * handle_input - Process the user input and execute commands.
