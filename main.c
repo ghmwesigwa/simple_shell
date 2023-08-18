@@ -38,7 +38,7 @@ int main(void)
     while (1)
     {
         // Get the current working directory
-        current_dir = getcwd(current_dir, 0);
+        current_dir = getcwd(current_dir, MAX_PROMPT_LENGTH);
         if (current_dir == NULL)
         {
             perror("getcwd");
