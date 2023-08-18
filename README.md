@@ -1,22 +1,24 @@
 # Simple Shell Mini Project
 
-The Simple Shell Mini Project is a minimalistic Unix-like command-line interpreter implemented in C. It offers users a basic shell environment to interact with the underlying operating system through command execution, variable substitution, and basic I/O redirection.
+The Simple Shell is a basic Unix-like command-line interpreter implemented in C. It provides users with a minimalistic shell environment to interact with the underlying operating system through command execution, variable substitution, basic I/O redirection, and now, the ability to run commands from a file.
 
 ## Features
 
-- **Command Execution**: The shell provides the ability to execute external commands by utilizing the `execve` system call. Users can run various system utilities, scripts, and programs seamlessly.
+- **Command Execution**: The shell supports the execution of external commands by utilizing the `execve` system call. Users can run various system utilities, scripts, and programs seamlessly.
 
-- **Built-in Commands**: The shell supports essential built-in commands such as `exit` to gracefully terminate the shell session and `env` to display the current environment variables.
+- **Built-in Commands**: Essential built-in commands such as `exit` for gracefully terminating the shell session and `env` for displaying environment variables are provided.
 
-- **Variable Substitution**: Users can employ variable substitution by prefixing variable names with the `$` symbol (e.g., `$USER`). The shell replaces these placeholders with their respective values from the environment.
+- **Variable Substitution**: Users can perform variable substitution by using `$` followed by a variable name (e.g., `$USER`). The shell replaces these placeholders with their corresponding values from the environment.
 
-- **Custom Input Handling**: The shell employs a custom input reading function with dynamic memory allocation. This ensures efficient and flexible input processing, accommodating varying command lengths.
+- **Custom Input Handling**: A custom input reading function with dynamic memory allocation ensures efficient and flexible input processing, accommodating varying command lengths.
 
-- **Basic Error Handling**: The shell incorporates rudimentary error handling, offering informative error messages for scenarios like command not found or failed process execution.
+- **Basic Error Handling**: Rudimentary error handling offers informative messages for scenarios like command not found or failed process execution.
+
+- **File as Input**: The shell introduces the capability to accept a file as a command line argument. Users can specify a filename as an argument when launching the shell (`./simple_shell filename.txt`). The file should contain commands to be executed, enabling automated execution of multiple commands without requiring user interaction.
 
 ## Getting Started
 
-To compile and launch the simple shell, adhere to the following instructions:
+To compile and launch the Simple Shell, follow these instructions:
 
 1. **Clone the Repository**:
 
@@ -28,18 +30,24 @@ To compile and launch the simple shell, adhere to the following instructions:
 2. **Compile the Source Code**:
 
     ```bash
-    gcc -o shell shell.c replace_variables.c print_environment.c handle_exit.c
+    gcc -o simple_shell *.c
     ```
 
 3. **Run the Shell**:
 
     ```bash
-    ./shell
+    ./simple_shell
+    ```
+
+4. **Run Commands from a File**:
+
+    ```bash
+    ./simple_shell filename.txt
     ```
 
 ## Usage
 
-Once within the shell environment, users can interact with the system using various commands. Here are some examples:
+Once in the shell environment, interact with the system using various commands:
 
 - Execute an external command:
 
@@ -47,7 +55,7 @@ Once within the shell environment, users can interact with the system using vari
     ls -l
     ```
 
-- Utilize built-in commands:
+- Use built-in commands:
 
     ```bash
     exit
@@ -60,12 +68,17 @@ Once within the shell environment, users can interact with the system using vari
     $USER
     ```
 
+## Limitations
+
+The Simple Shell project focuses on providing a basic command-line interface and has certain limitations:
+
+- Complex features like pipes, redirects, and advanced scripting are not implemented.
+- The shell is designed for educational purposes and may not meet all production use cases.
+
 ## Contributing
 
-Contributions to this simple shell mini project are wholeheartedly encouraged! If you identify any bugs, wish to extend functionalities, or propose optimizations, please open an issue or submit a pull request. Constructive collaboration is greatly appreciated.
-
+Contributions are highly encouraged! If you identify bugs, want to extend functionalities, or propose optimizations, please open an issue or submit a pull request. Collaborative efforts are appreciated.
 
 ## Acknowledgments
 
-This project draws inspiration from the simplicity and power of traditional Unix shells. We extend our gratitude to the contributors.
-
+This project was created as part of the ALX Low-Level Programming curriculum.
