@@ -31,4 +31,3 @@ void search_and_execute(char *args[]);
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
 
 #endif /* MAIN_H */
-
