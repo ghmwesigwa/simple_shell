@@ -27,6 +27,7 @@ void search_and_execute(char *args[]);
 
 /* shell.c */
 char *trim_whitespace(char *str);
+void execute_single_command(char *args[]);
 void execute_subcommand(char *sub_args[]);
 void execute_command_sequence(char *commands[]);
 void search_and_execute(char *args[]);
