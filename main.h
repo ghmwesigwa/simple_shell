@@ -27,6 +27,8 @@ void search_and_execute(char *args[]);
 
 /* shell.c */
 char *trim_whitespace(char *str);
+void execute_subcommand(char *sub_args[]);
+void execute_command_sequence(char *commands[]);
 void search_and_execute(char *args[]);
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream);
 

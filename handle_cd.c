@@ -13,15 +13,16 @@
  */
 void handle_cd(char *args[])
 {
-    if (args[1] == NULL)
-    {
-        chdir(getenv("HOME"));
-    }
-    else
-    {
-        if (chdir(args[1]) != 0)
-        {
-            perror("cd");
-        }
-    }
+	if (args[1] == NULL)
+	{
+		chdir(getenv("HOME"));
+	}
+	else
+	{
+		if (chdir(args[1]) != 0)
+		{
+			perror("cd");
+		}
+	}
 }
+
