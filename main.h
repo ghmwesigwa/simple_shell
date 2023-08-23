@@ -32,7 +32,7 @@ void execute_subcommands(char *args[]);
 void handle_input(char *input, char *alias_names[],
 char *alias_values[], int *num_aliases);
 void execute_commands(char *cmd, char *alias_names[],
-char *alias_values[], int *num_aliases); 
+char *alias_values[], int *num_aliases);
 void split_input(char *command, char *args[]);
 void execute_command(char *args[]);
 void replace_variables(char *args[]);
