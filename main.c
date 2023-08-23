@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
  * and then executes each command sequentially using execute_commands.
  */
 void handle_input(char *input, char *alias_names[],
-                  char *alias_values[], int *num_aliases)
+char *alias_values[], int *num_aliases)
 {
 	char *commands[MAX_ARGS]; /* Array to store individual commands */
 	char *token = strtok(input, ";");
@@ -95,7 +95,7 @@ void handle_input(char *input, char *alias_names[],
  * and finally executes other commands using search_and_execute.
  */
 void execute_commands(char *cmd, char *alias_names[],
-                      char *alias_values[], int *num_aliases)
+char *alias_values[], int *num_aliases)
 {
 	char *args[MAX_ARGS];
 
