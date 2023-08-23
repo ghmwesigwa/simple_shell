@@ -25,7 +25,7 @@ char *trim_whitespace(char *str)
 
 	if (*str == '\0')
 	{
-		return str;
+		return (str);
 	}
 
 	while (end > str && isspace((unsigned char)*end))
@@ -55,8 +55,8 @@ void search_and_execute(char *args[])
 
 	while (args[i] != NULL)
 	{
-		if (strcmp(args[i], ";") == 0 || strcmp(args[i], "&&") == 0
- || strcmp(args[i], "||") == 0)
+		if (strcmp(args[i], ";") == 0 || strcmp(args[i], "&&") == 0 ||
+		    strcmp(args[i], "||") == 0)
 		{
 			args[i] = NULL; /* Terminate the current command */
 
@@ -111,10 +111,8 @@ void split_input(char *command, char *args[])
  * @args: The arguments to the command.
  *
  * Description:
- * This function is responsible for executing the given 
- * command using execve.
- * It also handles built-in commands (exit, env), 
- * command separator (;), and
+ * This function is responsible for executing the given command using execve.
+ * It also handles built-in commands (exit, env), command separator (;), and
  * shell logical operators (&&, ||).
  */
 void execute_command(char *args[])
