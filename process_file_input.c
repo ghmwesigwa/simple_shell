@@ -12,7 +12,7 @@
  * and executes them sequentially.
  */
 void process_file_input(FILE *file, char *alias_names[],
-                        char *alias_values[], int *num_aliases)
+char *alias_values[], int *num_aliases)
 {
 	char *line = NULL;
 	size_t len = 0;
