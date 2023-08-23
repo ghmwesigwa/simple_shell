@@ -43,60 +43,84 @@ char *trim_whitespace(char *str)
  * @args: The arguments to the command.
  *
  * Description:
- * This function executes the given command using execvp. It also handles
+ * This function executes the given command using execve. It also handles
  * command sequences separated by shell logical operators (&&, ||).
  */
-void search_and_execute(char *args[]) {
-    int i = 0;
-    int j = 0;
-    int k = 0;
-    char *temp_args[MAX_ARGS];
-    int status;
-    pid_t child_pid;
+void search_and_execute(char *args[]) 
+{
+	pid_t child_pid;
+	int status;
 
-    while (args[i] != NULL) {
-        if (strcmp(args[i], ";") == 0 || strcmp(args[i], "&&") == 0 || strcmp(args[i], "||") == 0) {
-            args[i] = NULL; /* Terminate the current command */
+	int i = 0;
+	int j = 0;
+	int k;
+	char *temp_args[MAX_ARGS];
 
-            /* Copy elements to temp_args */
-            for (k = i + 1; args[k] != NULL; k++) {
-                temp_args[j++] = args[k];
-            }
-            temp_args[j] = NULL;
+	while (args[i] != NULL) 
+	{
+		if (strcmp(args[i], ";") == 0 || strcmp(args[i], "&&") == 0 || strcmp(args[i], "||") == 0) 
+		{
+			args[i] = NULL; /* Terminate the current command */
 
-            child_pid = fork();
-            if (child_pid == -1) {
-                perror("fork");
-                exit(EXIT_FAILURE);
-            }
-            if (child_pid == 0) {
-                execute_child(temp_args);
-            } else {
-                waitpid(child_pid, &status, 0);
-            }
+			/* Copy elements to temp_args */
+			/* int j; */
+			/* int k; */
 
-            i++;
-        } else {
-            temp_args[i] = args[i];
-            i++;
-        }
-    }
+			for (k = i + 1; args[k] != NULL; k++) 
+			{
+				temp_args[j++] = args[k];
+			}
+			temp_args[j] = NULL;
 
-    temp_args[i] = NULL; /* Terminate the last command */
+			child_pid = fork();
+			if (child_pid == -1) 
+			{
+				perror("fork");
+				exit(EXIT_FAILURE);
+			}
+			if (child_pid == 0) 
+			{
+				if (execvp(temp_args[0], temp_args) == -1) 
+				{
+					fprintf(stderr, "./shell: ");
+					perror(NULL);
+					exit(EXIT_FAILURE);
+				}
+			} else 
+			{
+				waitpid(child_pid, &status, 0);
+			}
 
-    child_pid = fork();
-    if (child_pid == -1) {
-        perror("fork");
-        exit(EXIT_FAILURE);
-    }
-    if (child_pid == 0) {
-        execute_child(temp_args);
-    } else {
-        waitpid(child_pid, &status, 0);
-    }
+			i++;
+		} else 
+		{
+			temp_args[i] = args[i];
+			i++;
+		}
+	}
+	temp_args[i] = NULL; /* Terminate the last command */
+
+	child_pid = fork();
+	if (child_pid == -1) 
+	{
+		perror("fork");
+		exit(EXIT_FAILURE);
+	}
+	if (child_pid == 0) 
+	{
+		if (execvp(temp_args[0], temp_args) == -1) 
+		{
+			fprintf(stderr, "./shell: ");
+			perror(NULL);
+			exit(EXIT_FAILURE);
+		}
+	} else 
+	{
+		waitpid(child_pid, &status, 0);
+	}
 }
 
-/*
+/**
  * split_input - Split the user command into arguments.
  * @command: The user command.
  * @args: The array to store the arguments.

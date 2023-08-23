@@ -23,8 +23,7 @@ void process_user_input(char *alias_names[], char *alias_values[], int *num_alia
 void generate_prompt_string(char *prompt, char *current_dir);
 void print_usage(char *program_name);
 
-void handle_logical_and(char *args[]);
-void handle_logical_or(char *args[]);
+void execute_child(char *args[]);
 
 
 void handle_input(char *input, char *alias_names[], char *alias_values[], int *num_aliases);
