@@ -18,8 +18,10 @@
 extern char **environ;
 
 /* main.c */
-void process_file_input(FILE *file, char *alias_names[], char *alias_values[], int *num_aliases);
-void process_user_input(char *alias_names[], char *alias_values[], int *num_aliases);
+void process_file_input(FILE *file, char *alias_names[],
+char *alias_values[], int *num_aliases);
+void process_user_input(char *alias_names[], char *alias_values[],
+int *num_aliases);
 void generate_prompt_string(char *prompt, char *current_dir);
 void print_usage(char *program_name);
 
@@ -27,8 +29,10 @@ void execute_child(char *args[]);
 void execute_subcommands(char *args[]);
 
 
-void handle_input(char *input, char *alias_names[], char *alias_values[], int *num_aliases);
-void execute_commands(char *cmd, char *alias_names[], char *alias_values[], int *num_aliases); 
+void handle_input(char *input, char *alias_names[],
+char *alias_values[], int *num_aliases);
+void execute_commands(char *cmd, char *alias_names[],
+char *alias_values[], int *num_aliases); 
 void split_input(char *command, char *args[]);
 void execute_command(char *args[]);
 void replace_variables(char *args[]);
