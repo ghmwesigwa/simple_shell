@@ -23,7 +23,8 @@ char *trim_whitespace(char *str)
 		str++;
 	}
 
-	if (*str == '\0') {
+	if (*str == '\0')
+	{
 		return str;
 	}
 
@@ -34,7 +35,7 @@ char *trim_whitespace(char *str)
 
 	*(end + 1) = '\0';
 
-	return str;
+	return (str);
 }
 
 /**
@@ -45,37 +46,44 @@ char *trim_whitespace(char *str)
  * This function executes the given command using execvp. It also handles
  * command sequences separated by shell logical operators (&&, ||).
  */
-void search_and_execute(char *args[]) {
-    int i = 0;
-    int j = 0;
-    int k = 0;
-    char *temp_args[MAX_ARGS];
+void search_and_execute(char *args[])
+{
+	int i = 0;
+	int j = 0;
+	int k = 0;
+	char *temp_args[MAX_ARGS];
 
-    while (args[i] != NULL) {
-        if (strcmp(args[i], ";") == 0 || strcmp(args[i], "&&") == 0 || strcmp(args[i], "||") == 0) {
-            args[i] = NULL; /* Terminate the current command */
+	while (args[i] != NULL)
+	{
+		if (strcmp(args[i], ";") == 0 || strcmp(args[i], "&&") == 0
+ || strcmp(args[i], "||") == 0)
+		{
+			args[i] = NULL; /* Terminate the current command */
 
-            /* Copy elements to temp_args */
-            for (k = i + 1; args[k] != NULL; k++) {
-                temp_args[j++] = args[k];
-            }
-            temp_args[j] = NULL;
+			/* Copy elements to temp_args */
+			for (k = i + 1; args[k] != NULL; k++)
+			{
+				temp_args[j++] = args[k];
+			}
+			temp_args[j] = NULL;
 
-            execute_subcommands(temp_args);
+			execute_subcommands(temp_args);
 
-            i++;
-        } else {
-            temp_args[i] = args[i];
-            i++;
-        }
-    }
+			i++;
+		}
+		else
+		{
+			temp_args[i] = args[i];
+			i++;
+		}
+	}
 
-    temp_args[i] = NULL; /* Terminate the last command */
+	temp_args[i] = NULL; /* Terminate the last command */
 
-    execute_subcommands(temp_args);
+	execute_subcommands(temp_args);
 }
 
-/*
+/**
  * split_input - Split the user command into arguments.
  * @command: The user command.
  * @args: The array to store the arguments.
@@ -103,8 +111,10 @@ void split_input(char *command, char *args[])
  * @args: The arguments to the command.
  *
  * Description:
- * This function is responsible for executing the given command using execve.
- * It also handles built-in commands (exit, env), command separator (;), and
+ * This function is responsible for executing the given 
+ * command using execve.
+ * It also handles built-in commands (exit, env), 
+ * command separator (;), and
  * shell logical operators (&&, ||).
  */
 void execute_command(char *args[])
@@ -129,6 +139,7 @@ void execute_command(char *args[])
 		{
 			char *command = trim_whitespace(token);
 			char *command_args[MAX_ARGS];
+
 			split_input(command, command_args);
 			search_and_execute(command_args);
 			token = strtok(NULL, ";");
