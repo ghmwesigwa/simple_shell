@@ -3,6 +3,7 @@
 #define MAX_ALIASES 10
 #define MAX_PROMPT_LENGTH 100
 
+
 /**
  * main - Entry point for the simple shell program.
  *
@@ -21,79 +22,29 @@ int main(int argc, char *argv[])
     char *alias_names[MAX_ALIASES];
     char *alias_values[MAX_ALIASES];
 
-    if (argc == 2) {
+    if (argc == 2)
+    {
         FILE *file = fopen(argv[1], "r");
-        if (file == NULL) {
+        if (file == NULL)
+        {
             perror("Error opening file");
             exit(EXIT_FAILURE);
         }
 
-        char *line = NULL;
-        size_t len = 0;
-        ssize_t read;
-
-        while ((read = custom_getline(&line, &len, file)) != -1) {
-            if (line[read - 1] == '\n') {
-                line[read - 1] = '\0'; /* Remove newline character */
-            }
-
-            handle_input(line, alias_names, alias_values, &num_aliases);
-        }
-
-        free(line);
+        process_file_input(file, alias_names, alias_values, &num_aliases);
         fclose(file);
-    } else if (argc == 1) {
-        char *command;
-        size_t bufsize = MAX_COMMAND_LENGTH;
-
-        command = (char *)malloc(bufsize * sizeof(char));
-        if (command == NULL)
-        {
-            perror("Allocation error");
-            exit(EXIT_FAILURE);
-        }
-
-        char *current_dir = NULL;
-        char prompt[MAX_PROMPT_LENGTH];
-
-        while (1)
-        {
-            /* Get the current working directory */
-            current_dir = getcwd(current_dir, MAX_PROMPT_LENGTH);
-            if (current_dir == NULL)
-            {
-                perror("getcwd");
-                exit(EXIT_FAILURE);
-            }
-
-            /* Generate the prompt string */
-            snprintf(prompt, MAX_PROMPT_LENGTH, "#cisfun:%s$", current_dir);
-
-            /* Display the prompt and read user input */
-            printf("%s ", prompt);
-            getline(&command, &bufsize, stdin);
-            command[strcspn(command, "\n")] = '\0';
-
-            if (feof(stdin))
-            {
-                printf("\n");
-                break;
-            }
-
-            handle_input(command, alias_names, alias_values, &num_aliases);
-
-            free(current_dir);
-        }
-
-        free(command);
-    } else {
-        fprintf(stderr, "Usage: %s [filename]\n", argv[0]);
-        exit(EXIT_FAILURE);
+    }
+    else if (argc == 1)
+    {
+        process_user_input(alias_names, alias_values, &num_aliases);
+    }
+    else
+    {
+        print_usage(argv[0]);
     }
 
     return EXIT_SUCCESS;
 }
-
 
 /**
  * handle_input - Process the user input and execute commands.
@@ -172,4 +123,3 @@ char *alias_values[], int *num_aliases)
 		search_and_execute(args);
 	}
 }
-
