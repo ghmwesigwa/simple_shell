@@ -16,16 +16,20 @@
  */
 char *trim_whitespace(char *str)
 {
-    while (isspace((unsigned char)*str)) {
+    char *end = str + strlen(str) - 1;
+
+    while (isspace((unsigned char)*str))
+    {
         str++;
     }
 
-    if (*str == '\0') {
+    if (*str == '\0')
+    {
         return str;
     }
 
-    char *end = str + strlen(str) - 1;
-    while (end > str && isspace((unsigned char)*end)) {
+    while (end > str && isspace((unsigned char)*end))
+    {
         end--;
     }
 
@@ -34,71 +38,32 @@ char *trim_whitespace(char *str)
     return str;
 }
 
+
 /**
  * search_and_execute - Execute the given command using execve.
  * @args: The arguments to the command.
  *
  * Description:
- * This function executes the given command using execve. It also handles
- * command sequences separated by shell logical operators (&&, ||).
+ * This function executes the given command using execve.
+ * It handles command sequences separated by shell logical operators (&&, ||).
  */
 void search_and_execute(char *args[]) {
-	pid_t child_pid;
-	int status;
+    int i = 0;
 
-	int i = 0;
-	char *temp_args[MAX_ARGS];
+    while (args[i] != NULL) {
+        if (strcmp(args[i], "&&") == 0) {
+            args[i] = NULL; /* Terminate the current command */
+            handle_logical_and(&args[i + 1]);
+        } else if (strcmp(args[i], "||") == 0) {
+            args[i] = NULL; /* Terminate the current command */
+            handle_logical_or(&args[i + 1]);
+        }
 
-	while (args[i] != NULL) {
-		if (strcmp(args[i], ";") == 0 || strcmp(args[i], "&&") == 0 || strcmp(args[i], "||") == 0) {
-			args[i] = NULL; /* Terminate the current command */
+        i++;
+    }
 
-			/* Copy elements to temp_args */
-			int j = 0;
-			for (int k = i + 1; args[k] != NULL; k++) {
-				temp_args[j++] = args[k];
-			}
-			temp_args[j] = NULL;
-
-			child_pid = fork();
-			if (child_pid == -1) {
-				perror("fork");
-				exit(EXIT_FAILURE);
-			}
-			if (child_pid == 0) {
-				if (execvp(temp_args[0], temp_args) == -1) {
-					fprintf(stderr, "./shell: ");
-					perror(NULL);
-					exit(EXIT_FAILURE);
-				}
-			} else {
-				waitpid(child_pid, &status, 0);
-			}
-
-			i++;
-		} else {
-			temp_args[i] = args[i];
-			i++;
-		}
-	}
-	temp_args[i] = NULL; /* Terminate the last command */
-
-	child_pid = fork();
-	if (child_pid == -1) {
-		perror("fork");
-		exit(EXIT_FAILURE);
-	}
-	if (child_pid == 0) {
-		if (execvp(temp_args[0], temp_args) == -1) {
-			fprintf(stderr, "./shell: ");
-			perror(NULL);
-			exit(EXIT_FAILURE);
-		}
-	} else {
-		waitpid(child_pid, &status, 0);
-	}
+    execute_command(args);
 }
-
 
 /**
  * split_input - Split the user command into arguments.
@@ -111,16 +76,16 @@ void search_and_execute(char *args[]) {
  */
 void split_input(char *command, char *args[])
 {
-    int i = 0;
-    char *token = strtok(command, " ");
+	int i = 0;
+	char *token = strtok(command, " ");
 
-    while (token != NULL)
-    {
-        args[i] = token;
-        token = strtok(NULL, " ");
-        i++;
-    }
-    args[i] = NULL;
+	while (token != NULL)
+	{
+		args[i] = token;
+		token = strtok(NULL, " ");
+		i++;
+	}
+	args[i] = NULL;
 }
 
 /**
@@ -134,26 +99,26 @@ void split_input(char *command, char *args[])
  */
 void execute_command(char *args[])
 {
-    if (strcmp(args[0], "exit") == 0) {
-        free(args);
-        exit(EXIT_SUCCESS);
-    } else if (strcmp(args[0], "env") == 0) {
-        print_environment();
-    } else {
-        char *token;
-        char *command_copy = strdup(args[0]);
+	if (strcmp(args[0], "exit") == 0) {
+		free(args);
+		exit(EXIT_SUCCESS);
+	} else if (strcmp(args[0], "env") == 0) {
+		print_environment();
+	} else {
+		char *token;
+		char *command_copy = strdup(args[0]);
 
-        /* Split and execute commands separated by ; */
-        token = strtok(command_copy, ";");
-        while (token != NULL) {
-            char *command = trim_whitespace(token);
-            char *command_args[MAX_ARGS];
-            split_input(command, command_args);
-            search_and_execute(command_args);
-            token = strtok(NULL, ";");
-        }
-        free(command_copy);
-    }
+		/* Split and execute commands separated by ; */
+		token = strtok(command_copy, ";");
+		while (token != NULL) {
+			char *command = trim_whitespace(token);
+			char *command_args[MAX_ARGS];
+			split_input(command, command_args);
+			search_and_execute(command_args);
+			token = strtok(NULL, ";");
+		}
+		free(command_copy);
+	}
 }
 
 /**
@@ -170,41 +135,41 @@ void execute_command(char *args[])
  */
 ssize_t custom_getline(char **lineptr, size_t *n, FILE *stream)
 {
-    size_t len = 0;
-    int c;
+	size_t len = 0;
+	int c;
 
-    if (*lineptr == NULL || *n == 0)
-    {
-        *n = 128;
-        *lineptr = (char *)malloc(*n);
-        if (*lineptr == NULL)
-        {
-            perror("malloc");
-            exit(EXIT_FAILURE);
-        }
-    }
+	if (*lineptr == NULL || *n == 0)
+	{
+		*n = 128;
+		*lineptr = (char *)malloc(*n);
+		if (*lineptr == NULL)
+		{
+			perror("malloc");
+			exit(EXIT_FAILURE);
+		}
+	}
 
-    while ((c = fgetc(stream)) != EOF && c != '\n')
-    {
-        if (len + 1 >= *n)
-        {
-            *n *= 2;
-            *lineptr = (char *)realloc(*lineptr, *n);
-            if (*lineptr == NULL)
-            {
-                perror("realloc");
-                exit(EXIT_FAILURE);
-            }
-        }
-        (*lineptr)[len++] = c;
-    }
+	while ((c = fgetc(stream)) != EOF && c != '\n')
+	{
+		if (len + 1 >= *n)
+		{
+			*n *= 2;
+			*lineptr = (char *)realloc(*lineptr, *n);
+			if (*lineptr == NULL)
+			{
+				perror("realloc");
+				exit(EXIT_FAILURE);
+			}
+		}
+		(*lineptr)[len++] = c;
+	}
 
-    if (c == EOF && len == 0)
-    {
-        return (-1);
-    }
+	if (c == EOF && len == 0)
+	{
+		return (-1);
+	}
 
-    (*lineptr)[len] = '\0';
-    return (len);
+	(*lineptr)[len] = '\0';
+	return (len);
 }
 
