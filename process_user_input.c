@@ -19,7 +19,7 @@ int *num_aliases)
 	size_t bufsize = MAX_COMMAND_LENGTH;
 	char prompt[MAX_PROMPT_LENGTH];
 
-	char *current_dir = NULL;  /* Move this variable declaration to the beginning */
+	char *current_dir = NULL;
 
 	command = (char *)malloc(bufsize * sizeof(char));
 	if (command == NULL)

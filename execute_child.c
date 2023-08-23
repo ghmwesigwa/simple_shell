@@ -7,11 +7,13 @@
  * Description:
  * This function is responsible for executing a command using execvp.
  */
-void execute_child(char *args[]) {
-    if (execvp(args[0], args) == -1) {
-        fprintf(stderr, "./shell: ");
-        perror(NULL);
-        exit(EXIT_FAILURE);
-    }
+void execute_child(char *args[])
+{
+	if (execvp(args[0], args) == -1)
+	{
+		fprintf(stderr, "./shell: ");
+		perror(NULL);
+		exit(EXIT_FAILURE);
+	}
 }
 
