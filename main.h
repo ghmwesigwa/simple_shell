@@ -24,6 +24,7 @@ void generate_prompt_string(char *prompt, char *current_dir);
 void print_usage(char *program_name);
 
 void execute_child(char *args[]);
+void execute_subcommands(char *args[]);
 
 
 void handle_input(char *input, char *alias_names[], char *alias_values[], int *num_aliases);
