@@ -14,19 +14,20 @@
 void process_file_input(FILE *file, char *alias_names[],
                         char *alias_values[], int *num_aliases)
 {
-    char *line = NULL;
-    size_t len = 0;
-    ssize_t read;
+	char *line = NULL;
+	size_t len = 0;
+	ssize_t read;
 
-    while ((read = custom_getline(&line, &len, file)) != -1)
-    {
-        if (line[read - 1] == '\n')
-        {
-            line[read - 1] = '\0'; /* Remove newline character */
-        }
+	while ((read = custom_getline(&line, &len, file)) != -1)
+	{
+		if (line[read - 1] == '\n')
+		{
+			line[read - 1] = '\0'; /* Remove newline character */
+		}
 
-        handle_input(line, alias_names, alias_values, num_aliases);
-    }
+		handle_input(line, alias_names, alias_values, num_aliases);
+	}
 
-    free(line);
+	free(line);
 }
+

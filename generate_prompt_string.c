@@ -12,5 +12,6 @@
  */
 void generate_prompt_string(char *prompt, char *current_dir)
 {
-    snprintf(prompt, MAX_PROMPT_LENGTH, "#cisfun:%s$", current_dir);
+	snprintf(prompt, MAX_PROMPT_LENGTH, "#cisfun:%s$", current_dir);
 }
+

@@ -9,6 +9,7 @@
  */
 void print_usage(char *program_name)
 {
-    fprintf(stderr, "Usage: %s [filename]\n", program_name);
-    exit(EXIT_FAILURE);
+	fprintf(stderr, "Usage: %s [filename]\n", program_name);
+	exit(EXIT_FAILURE);
 }
+
